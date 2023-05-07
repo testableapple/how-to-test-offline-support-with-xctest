@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  push:
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Disabling network on iOS Simulator from XCTest
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3.5.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start the server
+        run: node server.js &
+
+      - name: Run the sample test
+        run: |
+          xcodebuild test \
+            -destination "platform=iOS Simulator,name=iPhone 14" \
+            -scheme Sample | xcpretty
